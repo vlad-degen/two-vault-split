@@ -244,6 +244,10 @@
     .explain { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 860px) {
+    .hf-ctl { width: 100%; }
+    .seg { width: 100%; }
+    .seg label { min-width: 0; flex: 1; padding: 5px 2px; font-size: 12.5px; }
+    .seg label small { font-size: 9.5px; }
     .rec-card { grid-template-columns: 1fr; }
     .facts { grid-template-columns: 1fr; }
     .explain { grid-template-columns: 1fr; }
@@ -281,7 +285,7 @@
       <span><i class="sw first"></i>first vault</span>
       <span><i class="sw second"></i>second vault</span>
       <span><i class="sw hi"></i>first vault is the larger one</span>
-      <span><span class="mono">↓0.95</span> lowest HF the first vault still covers</span>
+      <span><span class="mono">↓0.942</span> deepest liquidation HF where only the first vault is taken</span>
     </div>
   </div>
 
@@ -354,7 +358,7 @@
       <ul>
         <li><b>THF</b> is our split parameter: the HF right after the first vault is taken, if the liquidation happens at the expected HF. Aave's own target HF does not apply to this liquidation path.</li>
         <li><b>Expected HF</b> also sets the bonus through the Aave v4 curve: 4.99% just below 1.00, up to 5.55% at 0.90.</li>
-        <li><b>↓ number</b> in a cell: if the liquidation lands below it, the first vault is not enough and both vaults go.</li>
+        <li><b>↓ number</b> in a cell: the deepest HF a liquidation can land at and still take only the first vault. Land any deeper and both vaults go.</li>
       </ul>
     </section>
     <section>
@@ -448,7 +452,7 @@
     if (thf === REC.thf) tr.className = 'rec-row';
     const th = document.createElement('th');
     th.scope = 'row';
-    th.innerHTML = thf.toFixed(2) + (thf === REC.thf ? '<small>recommended</small>' : '');
+    th.innerHTML = thf.toFixed(2) + (thf === REC.thf ? '<small>our pick</small>' : '');
     rowHeads.push(th); tr.append(th);
     const row = CFS.map((cf, c) => {
       const td = document.createElement('td');
